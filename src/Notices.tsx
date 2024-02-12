@@ -11,8 +11,21 @@
 // under the License.
 
 import { ethers } from "ethers";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNoticesQuery } from "./generated/graphql";
+import { useToast } from '@chakra-ui/react'
+import { Badge, Button } from '@chakra-ui/react'
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
+  } from '@chakra-ui/react'
 
 type Notice = {
     id: string;
@@ -24,6 +37,13 @@ type Notice = {
 export const Notices: React.FC = () => {
     const [result,reexecuteQuery] = useNoticesQuery();
     const { data, fetching, error } = result;
+    const [previousLength, setPreviousLength] = useState<number>(0);
+
+    const toast = useToast()
+
+    useEffect(() => {
+    reexecuteQuery({ requestPolicy: 'network-only' });
+}, [reexecuteQuery]);
 
     if (fetching) return <p>Loading...</p>;
     if (error) return <p>Oh no... {error.message}</p>;
@@ -66,37 +86,64 @@ export const Notices: React.FC = () => {
         }
     });
 
+    function payloadIsJSON(payload: any) {
+        try {
+            JSON.parse(payload);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
     // const forceUpdate = useForceUpdate();
     return (
         <div>
-            <button onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
-                Reload
-            </button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Input Index</th>
-                        <th>Notice Index</th>
+            <Button size='sm' onClick={() => {reexecuteQuery({ requestPolicy: 'network-only' });
+                } }>
+                Reload 🔃
+            </Button>
+            <Table>
+                <Thead>
+                    <Tr>
+                        {/* <th>Input Index</th>
+                        <th>Notice Index</th> */}
                         {/* <th>Input Payload</th> */}
-                        <th>Payload</th>
-                    </tr>
-                </thead>
-                <tbody>
+                        <Th>Notices</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
                     {notices.length === 0 && (
-                        <tr>
-                            <td colSpan={4}>no notices</td>
-                        </tr>
+                        <Tr>
+                            <Td colSpan={4}>no notices</Td>
+                        </Tr>
                     )}
                     {notices.map((n: any) => (
-                        <tr key={`${n.input.index}-${n.index}`}>
-                            <td>{n.input.index}</td>
-                            <td>{n.index}</td>
-                            {/* <td>{n.input.payload}</td> */}
-                            <td>{n.payload}</td>
-                        </tr>
+                        <Tr key={`${n.input.index}-${n.index}`}>
+
+                            {/* Conditionally render deposit activity */}
+                            {payloadIsJSON(n.payload) ? (
+                                JSON.parse(n.payload).type === "etherdeposit" ? (
+                                <Td><Badge colorScheme="cyan">{JSON.parse(n.payload).type}</Badge> {ethers.utils.formatEther((JSON.parse(n.payload).content).amount)} Ξ deposited to ctsi account <Badge variant="outline">{(JSON.parse(n.payload).content).address}</Badge> </Td>
+                                    ) :
+                                JSON.parse(n.payload).type === "erc20deposit" ? (
+                                <Td><Badge colorScheme="green">{JSON.parse(n.payload).type}</Badge> {ethers.utils.formatEther((JSON.parse(n.payload).content).amount)} amount deposited to ctsi account <Badge variant="outline">{(JSON.parse(n.payload).content).address}</Badge>. ERC20 address <Badge variant="outline">{(JSON.parse(n.payload).content).erc20}</Badge> </Td>
+                                    ) :
+                                JSON.parse(n.payload).type === "erc721deposit" ? (
+                                <Td><Badge colorScheme="purple">{JSON.parse(n.payload).type}</Badge> NFT address <Badge variant="outline">{(JSON.parse(n.payload).content).erc721}</Badge> and id <Badge variant="outline">{(JSON.parse(n.payload).content).token_id}</Badge> transferred to ctsi account <Badge variant="outline">{(JSON.parse(n.payload).content).address}</Badge></Td>
+                                    ) : (
+                                 // Render something else for other JSON content
+                                    <Td>{JSON.stringify(n.payload)}</Td>
+                                ) 
+                            ) : (    
+                                // Render if payload is not JSON
+                                <Td><Badge>DappAdressRelay</Badge> {n.payload}</Td>
+                            ) }
+                            
+                            
+                        </Tr>
                     ))}
-                </tbody>
-            </table>
+                </Tbody>
+            </Table>
 
         </div>
     );

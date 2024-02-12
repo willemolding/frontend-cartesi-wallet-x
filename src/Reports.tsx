@@ -13,6 +13,18 @@
 import { ethers } from "ethers";
 import React from "react";
 import { useReportsQuery } from "./generated/graphql";
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
+    Button
+  } from '@chakra-ui/react'
 
 type Report = {
     id: string;
@@ -69,34 +81,34 @@ export const Reports: React.FC = () => {
     // const forceUpdate = useForceUpdate();
     return (
         <div>
-            <button onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
-                Reload
-            </button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Input Index</th>
-                        <th>Notice Index</th>
+            <Button size='sm' onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
+                Reload 🔃
+            </Button>
+            <Table>
+                <Thead>
+                    <Tr>
+                        {/* <Th>Input Index</Th>
+                        <Th>Notice Index</Th> */}
                         {/* <th>Input Payload</th> */}
-                        <th>Payload</th>
-                    </tr>
-                </thead>
-                <tbody>
+                        <Th>Reports</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
                     {reports.length === 0 && (
-                        <tr>
-                            <td colSpan={4}>no reports</td>
-                        </tr>
+                        <Tr>
+                            <Td colSpan={4}>no reports</Td>
+                        </Tr>
                     )}
                     {reports.map((n: any) => (
-                        <tr key={`${n.input.index}-${n.index}`}>
-                            <td>{n.input.index}</td>
-                            <td>{n.index}</td>
+                        <Tr key={`${n.input.index}-${n.index}`}>
+                            {/* <Td>{n.input.index}</Td>
+                            <Td>{n.index}</Td> */}
                             {/* <td>{n.input.payload}</td> */}
-                            <td>{n.payload}</td>
-                        </tr>
+                            <Td>{n.payload}</Td>
+                        </Tr>
                     ))}
-                </tbody>
-            </table>
+                </Tbody>
+            </Table>
 
         </div>
     );

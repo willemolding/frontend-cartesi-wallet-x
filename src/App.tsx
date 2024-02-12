@@ -17,12 +17,16 @@ import { useState } from "react";
 
 import { GraphQLProvider } from "./GraphQL";
 import { Notices } from "./Notices";
-import { Input } from "./Input";
+import { Transfers } from "./Transfers";
 import { Inspect } from "./Inspect";
 import { Network } from "./Network";
 import { Vouchers } from "./Vouchers";
 import { Reports } from "./Reports";
 import configFile from "./config.json";
+//import "./App.css";
+import { Balance } from "./Balance";
+import {Heading, Flex} from "@chakra-ui/react"
+
 
 const config: any = configFile;
 
@@ -44,29 +48,44 @@ const App: FC = () => {
     const [dappAddress, setDappAddress] = useState<string>("0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C");
 
     return (
-        <div>
+        <Flex width={"100vw"} height={"100vh"} alignContent={"center"} justifyContent={"center"}>
+        <div className="main-container">
             <Network />
             <GraphQLProvider>
                 <div>
                     Dapp Address: <input
+                        className="address-textbox"
                         type="text"
                         value={dappAddress}
                         onChange={(e) => setDappAddress(e.target.value)}
                     />
                     <br /><br />
                 </div>
-                <h2>Inspect</h2>
-                <Inspect />
-                <h2>Input</h2>
-                <Input dappAddress={dappAddress} />
-                <h2>Reports</h2>
-                <Reports />
-                <h2>Notices</h2>
-                <Notices />
-                <h2>Vouchers</h2>
-                <Vouchers dappAddress={dappAddress} />
+                {/*
+                < div className="inspect-ui">
+                    <h2>Inspect</h2>
+                    <Inspect />
+                </div>
+                */}
+                <br />
+                <div className="deposit-balance">
+                    <div className="balance-ui">
+                        <Balance />
+                    </div>
+                    <br /> <br />
+                    <div className="input-ui">
+                        <Transfers dappAddress={dappAddress} />
+                    </div>
+                    <br /> <br />
+                    <div className="activity-ui">
+                        {/* <Notices /> */}
+                        {/* <Vouchers dappAddress={dappAddress} /> */}
+                        {/* <Reports /> */}
+                    </div>
+                </div>
             </GraphQLProvider>
-        </div>
+            </div>
+        </Flex>
     );
 };
 

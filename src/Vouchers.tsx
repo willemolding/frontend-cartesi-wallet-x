@@ -14,6 +14,18 @@ import { BigNumber, ethers } from "ethers";
 import React, { useEffect } from "react";
 import { useVouchersQuery, useVoucherQuery } from "./generated/graphql";
 import { useRollups } from "./useRollups";
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
+    Button
+  } from '@chakra-ui/react'
 
 type Voucher = {
     id: string;
@@ -180,72 +192,73 @@ export const Vouchers: React.FC<IVoucherPropos> = (propos) => {
     return (
         <div>
             <p>Voucher to execute</p>
-        {voucherToExecute ? <table>
-            <thead>
-                <tr>
-                    <th>Input Index</th>
-                    <th>Voucher Index</th>
-                    <th>Destination</th>
-                    <th>Action</th>
+        {voucherToExecute ? 
+        <Table>
+            <Thead>
+                <Tr>
+                    {/* <Th>Input Index</Th>
+                    <Th>Voucher Index</Th>
+                    <Th>Destination</Th> */}
+                    <Th>Action</Th> 
                     {/* <th>Payload</th> */}
                     {/* <th>Proof</th> */}
-                    <th>Input Payload</th>
-                    <th>Msg</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr key={`${voucherToExecute.input.index}-${voucherToExecute.index}`}>
-                    <td>{voucherToExecute.input.index}</td>
-                    <td>{voucherToExecute.index}</td>
-                    <td>{voucherToExecute.destination}</td>
-                    <td>
-                        <button disabled={!voucherToExecute.proof || voucherToExecute.executed} onClick={() => executeVoucher(voucherToExecute)}>{voucherToExecute.proof ? (voucherToExecute.executed ? "Voucher executed" : "Execute voucher") : "No proof yet"}</button>
-                    </td>
+                    {/* <Th>Input Payload</Th> */} 
+                    <Th>Msg</Th>
+                </Tr>
+            </Thead>
+            <Tbody>
+                <Tr key={`${voucherToExecute.input.index}-${voucherToExecute.index}`}>
+                    {/* <Td>{voucherToExecute.input.index}</Td>
+                    <Td>{voucherToExecute.index}</Td>
+                    <Td>{voucherToExecute.destination}</Td> */}
+                    <Td>
+                        <Button size='sm' disabled={!voucherToExecute.proof || voucherToExecute.executed} onClick={() => executeVoucher(voucherToExecute)}>{voucherToExecute.proof ? (voucherToExecute.executed ? "Voucher executed" : "Execute voucher") : "No proof yet"}</Button>
+                    </Td>
                     {/* <td>{voucherToExecute.payload}</td> */}
                     {/* <td>{voucherToExecute.proof}</td> */}
-                    <td>{voucherToExecute.input.payload}</td>
-                    <td>{voucherToExecute.msg}</td>
-                </tr>
-            </tbody>
-        </table> : <p>Nothing yet</p>}
-            <button onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
-                Reload
-            </button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Input Index</th>
-                        <th>Voucher Index</th>
-                        <th>Destination</th>
-                        <th>Action</th>
+                    <Td>{voucherToExecute.input.payload}</Td>
+                    <Td>{voucherToExecute.msg}</Td>
+                </Tr>
+            </Tbody>
+        </Table> : <p>No vouchers to execute! :( </p>}
+            <Button size='sm' onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
+                Reload 🔃
+            </Button>
+            <Table>
+                <Thead>
+                    <Tr>
+                        {/*<Th>Input Index</Th>
+                        <Th>Voucher Index</Th>
+                        <Th>Destination</Th> */}
+                        <Th>Action</Th>
                         {/* <th>Input Payload</th> */}
-                        <th>Payload</th>
+                        <Th>Payload</Th>
                         {/* <th>Proof</th> */}
-                    </tr>
-                </thead>
-                <tbody>
+                    </Tr>
+                </Thead>
+                <Tbody>
                     {vouchers.length === 0 && (
-                        <tr>
+                        <Tr>
                             <td colSpan={4}>no vouchers</td>
-                        </tr>
+                        </Tr>
                     )}
                     {vouchers.map((n: any) => (
-                        <tr key={`${n.input.index}-${n.index}`}>
-                            <td>{n.input.index}</td>
-                            <td>{n.index}</td>
-                            <td>{n.destination}</td>
-                            <td>
+                        <Tr key={`${n.input.index}-${n.index}`}>
+                            {/*<Td>{n.input.index}</Td>
+                            <Td>{n.index}</Td>
+                            <Td>{n.destination}</Td> */}
+                            <Td>
                                 <button onClick={() => getProof(n)}>Get Proof</button>
-                            </td>
+                            </Td>
                             {/* <td>{n.input.payload}</td> */}
-                            <td>{n.payload}</td>
+                            <Td>{n.payload}</Td>
                             {/* <td>
                                 <button disabled={!!n.proof} onClick={() => executeVoucher(n)}>Execute voucher</button>
                             </td> */}
-                        </tr>
+                        </Tr>
                     ))}
-                </tbody>
-            </table>
+                </Tbody>
+            </Table>
 
         </div>
     );
