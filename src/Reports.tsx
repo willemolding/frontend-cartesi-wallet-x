@@ -81,16 +81,15 @@ export const Reports: React.FC = () => {
     // const forceUpdate = useForceUpdate();
     return (
         <div>
-            <Button size='sm' onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
-                Reload 🔃
-            </Button>
             <Table>
                 <Thead>
                     <Tr>
                         {/* <Th>Input Index</Th>
                         <Th>Notice Index</Th> */}
                         {/* <th>Input Payload</th> */}
-                        <Th>Reports</Th>
+                        <Th>Reports <Button size='xs' onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
+                🔃                  </Button>
+                        </Th>
                     </Tr>
                 </Thead>
                 <Tbody>

@@ -25,6 +25,7 @@ import {
     Td,
     TableCaption,
     TableContainer,
+    Box
   } from '@chakra-ui/react'
 
 type Notice = {
@@ -97,18 +98,17 @@ export const Notices: React.FC = () => {
 
     // const forceUpdate = useForceUpdate();
     return (
-        <div>
-            <Button size='sm' onClick={() => {reexecuteQuery({ requestPolicy: 'network-only' });
-                } }>
-                Reload 🔃
-            </Button>
+        <Box >
             <Table>
                 <Thead>
                     <Tr>
                         {/* <th>Input Index</th>
                         <th>Notice Index</th> */}
                         {/* <th>Input Payload</th> */}
-                        <Th>Notices</Th>
+                        <Th>Notices <Button size='xs' onClick={() => {reexecuteQuery({ requestPolicy: 'network-only' });
+                                    } }>
+                🔃                  </Button>
+                        </Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -145,6 +145,6 @@ export const Notices: React.FC = () => {
                 </Tbody>
             </Table>
 
-        </div>
+        </Box>
     );
 };

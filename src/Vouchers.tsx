@@ -212,7 +212,10 @@ export const Vouchers: React.FC<IVoucherPropos> = (propos) => {
                     <Td>{voucherToExecute.index}</Td>
                     <Td>{voucherToExecute.destination}</Td> */}
                     <Td>
-                        <Button size='sm' disabled={!voucherToExecute.proof || voucherToExecute.executed} onClick={() => executeVoucher(voucherToExecute)}>{voucherToExecute.proof ? (voucherToExecute.executed ? "Voucher executed" : "Execute voucher") : "No proof yet"}</Button>
+                        <Button _disabled={{
+                                bg: '#ffffff',
+                                borderColor: '#bec3c9',
+                            }} size='sm' disabled={!voucherToExecute.proof || voucherToExecute.executed} onClick={() => executeVoucher(voucherToExecute)}>{voucherToExecute.proof ? (voucherToExecute.executed ? "Voucher executed" : "Execute voucher") : "No proof yet"}</Button>
                     </Td>
                     {/* <td>{voucherToExecute.payload}</td> */}
                     {/* <td>{voucherToExecute.proof}</td> */}
@@ -248,7 +251,7 @@ export const Vouchers: React.FC<IVoucherPropos> = (propos) => {
                             <Td>{n.index}</Td>
                             <Td>{n.destination}</Td> */}
                             <Td>
-                                <button onClick={() => getProof(n)}>Get Proof</button>
+                                <Button size='sm' onClick={() => getProof(n)}>Get Proof</Button>
                             </Td>
                             {/* <td>{n.input.payload}</td> */}
                             <Td>{n.payload}</Td>

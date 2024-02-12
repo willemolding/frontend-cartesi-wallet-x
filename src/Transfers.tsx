@@ -242,7 +242,7 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
                         <AccordionItem>
                             <h2>
                             <AccordionButton>
-                            Deposit Ether
+                            Ether
                             <AccordionIcon />
                             </AccordionButton>
                             </h2>
@@ -279,7 +279,7 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
                         <AccordionItem>
                             <h2>
                             <AccordionButton>
-                            Deposit ERC20
+                            ERC20
                             <AccordionIcon />
                             </AccordionButton>
                             </h2>
@@ -300,7 +300,7 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
                                 onChange={(e) => setErc20Amount(Number(e.target.value))}
                             /> */}
                             <Button colorScheme='blue' size='sm' onClick={() => depositErc20ToPortal(erc20Token,erc20Amount)} disabled={!rollups}>
-                                Deposit ERC20
+                                Deposit
                             </Button>
                             <Button size='sm' onClick={() => {
                                         withdrawErc20(erc20Amount, erc20Token)}} disabled={!rollups}>
@@ -313,7 +313,7 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
                         <AccordionItem>
                             <h2>
                             <AccordionButton>
-                            Deposit ERC721
+                            ERC721
                             <AccordionIcon />
                             </AccordionButton>
                             </h2>
