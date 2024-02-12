@@ -234,9 +234,10 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
                 <Box maxW='lg' p={4} display='flex'>
                 <TabPanels>
                     <TabPanel>
-                        <Text fontSize='sm'>
+                        <Text fontSize='sm' color='grey'>
                             Cartesi dApps recieve asset deposits via Portal smart contracts on the base layer. 
                         </Text>
+                    <br />
                     <Accordion size='xl' defaultIndex={[0]} allowMultiple>
                         <AccordionItem>
                             <h2>

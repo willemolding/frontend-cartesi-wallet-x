@@ -13,6 +13,7 @@
 import { FC } from "react";
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 import configFile from "./config.json";
+import {Button, Select, Box, Badge, Spacer } from "@chakra-ui/react"
 
 const config: any = configFile;
 
@@ -30,12 +31,12 @@ export const Network: FC = () => {
                 {connecting ? "Connecting" : "Connect"}
             </button>}
             {wallet && (
-                <div>
-                    <label>Switch Chain: </label>
+                <Box display='flex' w='100%' ml='2' mt='2' alignItems='baseline'>
+                   {/* <label><Badge>Network</Badge></label> */}
                     {settingChain ? (
                         <span>Switching chain...</span>
                     ) : (
-                        <select
+                        <Select size='xs' width='auto'
                             onChange={({ target: { value } }) => {
                                 if (config[value] !== undefined) {
                                     setChain({ chainId: value })
@@ -53,12 +54,15 @@ export const Network: FC = () => {
                                     </option>
                                 );
                             })}
-                        </select>
+                        </Select>
                     )}
-                    <button onClick={() => disconnect(wallet)}>
-                        Disconnect Wallet
-                    </button>
-                </div>
+                    <Spacer />
+                    <Box alignContent='right'>
+                    <Button size='xs' onClick={() => disconnect(wallet)}>
+                    ✂️ Disconnect Wallet
+                    </Button>
+                    </Box>
+                </Box>
             )}
         </div>
     );

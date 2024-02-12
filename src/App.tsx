@@ -25,7 +25,7 @@ import { Reports } from "./Reports";
 import configFile from "./config.json";
 //import "./App.css";
 import { Balance } from "./Balance";
-import {Heading, Flex} from "@chakra-ui/react"
+import {Heading, Flex, Input, Box, InputGroup, InputLeftAddon, Stack} from "@chakra-ui/react"
 
 
 const config: any = configFile;
@@ -50,23 +50,27 @@ const App: FC = () => {
     return (
         <Flex width={"100vw"} height={"100vh"} alignContent={"center"} justifyContent={"center"}>
         <div className="main-container">
-            <Network />
-            <GraphQLProvider>
-                <div>
-                    Dapp Address: <input
-                        className="address-textbox"
-                        type="text"
-                        value={dappAddress}
-                        onChange={(e) => setDappAddress(e.target.value)}
-                    />
-                    <br /><br />
-                </div>
-                {/*
-                < div className="inspect-ui">
-                    <h2>Inspect</h2>
-                    <Inspect />
-                </div>
-                */}
+        <Network />
+        <GraphQLProvider>
+            <Stack>
+                <Box display='flex' alignItems='baseline' marginLeft='2' mt='0'>
+                    
+                <InputGroup size='xs'>
+                <InputLeftAddon>
+                    Dapp Address
+                </InputLeftAddon> 
+                <Input 
+                    width='auto'
+                    size='xs'
+                    className="address-textbox"
+                    type="text"
+                    value={dappAddress}
+                    onChange={(e) => setDappAddress(e.target.value)}
+                />
+                </ InputGroup >
+                <br /><br />
+                </Box>
+            </Stack>
                 <br />
                 <div className="deposit-balance">
                     <div className="balance-ui">

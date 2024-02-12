@@ -29,7 +29,9 @@ import {
     TableCaption,
     TableContainer,
     Button,
-    Stack
+    Stack,
+    Box,
+    Spacer
   } from '@chakra-ui/react'
 
 const config: any = configFile;
@@ -93,20 +95,21 @@ export const Balance: React.FC = () => {
     const [postData, setPostData] = useState<boolean>(false);
 
     return (
+        <Box alignItems='center' alignContent={"center"} borderWidth='1px' borderRadius='lg' overflow='hidden'>
         <TableContainer>
             <Stack>
-            <Table variant='striped' colorScheme="teal" size="lg">
+            <Table variant='striped' size="lg">
                 <Thead>
-                    <Tr>
-                        <Th>Ether</Th>
-                        <Th>ERC-20</Th>
-                        <Th>ERC-721</Th>
+                    <Tr textAlign={'center'}>
+                        <Th textAlign={'center'}>Ether</Th>
+                        <Th textAlign={'center'}>ERC-20</Th>
+                        <Th textAlign={'center'}>ERC-721</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
                     {reports?.length === 0 && (
                         <Tr>
-                            <Td colSpan={4}>oops, your cartesi dapp balance is zero! 🙁</Td>
+                            <Td colSpan={4} textAlign={'center'} fontSize='14' color='grey' >looks like your cartesi dapp balance is zero! 🙁</Td>
                         </Tr>
                     )}
                 
@@ -130,5 +133,6 @@ export const Balance: React.FC = () => {
             <Button onClick={() => inspectCall("balance/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266")}>Get Balance</Button>
             </Stack>
         </TableContainer>
+        </Box>
     );
 };
