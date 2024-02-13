@@ -25,7 +25,7 @@ import { Reports } from "./Reports";
 import configFile from "./config.json";
 //import "./App.css";
 import { Balance } from "./Balance";
-import {Heading, Flex, Input, Box, InputGroup, InputLeftAddon, Stack} from "@chakra-ui/react"
+import {Heading, Flex, Input, Box, InputGroup, InputLeftAddon, Stack, SimpleGrid} from "@chakra-ui/react"
 
 
 const config: any = configFile;
@@ -48,12 +48,11 @@ const App: FC = () => {
     const [dappAddress, setDappAddress] = useState<string>("0x70ac08179605AF2D9e75782b8DEcDD3c22aA4D0C");
 
     return (
-        <Flex width={"100vw"} height={"100vh"} alignContent={"center"} justifyContent={"center"}>
-        <div className="main-container">
+        <SimpleGrid columns={1} marginLeft={'25%'} marginRight={'25%'}>  
         <Network />
         <GraphQLProvider>
             <Stack>
-                <Box display='flex' alignItems='baseline' marginLeft='2' mt='0'>
+                <Box alignItems='baseline' marginLeft='2' mt='0'>
                     
                 <InputGroup size='xs'>
                 <InputLeftAddon>
@@ -72,24 +71,12 @@ const App: FC = () => {
                 </Box>
             </Stack>
                 <br />
-                <div className="deposit-balance">
-                    <div className="balance-ui">
-                        <Balance />
-                    </div>
+                    <Balance />
                     <br /> <br />
-                    <div className="input-ui">
-                        <Transfers dappAddress={dappAddress} />
-                    </div>
+                    <Transfers dappAddress={dappAddress} />
                     <br /> <br />
-                    <div className="activity-ui">
-                        {/* <Notices /> */}
-                        {/* <Vouchers dappAddress={dappAddress} /> */}
-                        {/* <Reports /> */}
-                    </div>
-                </div>
             </GraphQLProvider>
-            </div>
-        </Flex>
+        </SimpleGrid>
     );
 };
 

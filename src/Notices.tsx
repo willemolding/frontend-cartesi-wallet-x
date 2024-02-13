@@ -123,16 +123,16 @@ export const Notices: React.FC = () => {
                             {/* Conditionally render deposit activity */}
                             {payloadIsJSON(n.payload) ? (
                                 JSON.parse(n.payload).type === "etherdeposit" ? (
-                                <Td><Badge colorScheme="cyan">{JSON.parse(n.payload).type}</Badge> {ethers.utils.formatEther((JSON.parse(n.payload).content).amount)} Ξ deposited to ctsi account <Badge variant="outline">{(JSON.parse(n.payload).content).address}</Badge> </Td>
+                                <Td color={'grey'}><Badge colorScheme="cyan">{JSON.parse(n.payload).type}</Badge> {ethers.utils.formatEther((JSON.parse(n.payload).content).amount)} Ξ deposited to ctsi account {(JSON.parse(n.payload).content).address} </Td>
                                     ) :
                                 JSON.parse(n.payload).type === "erc20deposit" ? (
-                                <Td><Badge colorScheme="green">{JSON.parse(n.payload).type}</Badge> {ethers.utils.formatEther((JSON.parse(n.payload).content).amount)} amount deposited to ctsi account <Badge variant="outline">{(JSON.parse(n.payload).content).address}</Badge>. ERC20 address <Badge variant="outline">{(JSON.parse(n.payload).content).erc20}</Badge> </Td>
+                                <Td color={'grey'}><Badge colorScheme="green">{JSON.parse(n.payload).type}</Badge> {ethers.utils.formatEther((JSON.parse(n.payload).content).amount)} amount deposited to ctsi account {(JSON.parse(n.payload).content).address}. ERC20 address {(JSON.parse(n.payload).content).erc20} </Td>
                                     ) :
                                 JSON.parse(n.payload).type === "erc721deposit" ? (
-                                <Td><Badge colorScheme="purple">{JSON.parse(n.payload).type}</Badge> NFT address <Badge variant="outline">{(JSON.parse(n.payload).content).erc721}</Badge> and id <Badge variant="outline">{(JSON.parse(n.payload).content).token_id}</Badge> transferred to ctsi account <Badge variant="outline">{(JSON.parse(n.payload).content).address}</Badge></Td>
+                                <Td color={'grey'}><Badge colorScheme="purple">{JSON.parse(n.payload).type}</Badge> NFT address <Badge variant="outline">{(JSON.parse(n.payload).content).erc721}</Badge> and id {(JSON.parse(n.payload).content).token_id} transferred to ctsi account {(JSON.parse(n.payload).content).address}</Td>
                                     ) : (
                                  // Render something else for other JSON content
-                                    <Td>{JSON.stringify(n.payload)}</Td>
+                                    <Td color={'grey'}>{JSON.stringify(n.payload)}</Td>
                                 ) 
                             ) : (    
                                 // Render if payload is not JSON

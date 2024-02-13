@@ -22,9 +22,9 @@ export const Network: FC = () => {
     const [{ chains, connectedChain, settingChain }, setChain] = useSetChain();
 
     return (
-        <div>
+        <Box>
             {!wallet && 
-            <Box mt='20' display={'flex'} width={"50vw"} height={"50vh"} alignContent={"center"} justifyContent={"center"}>
+            <Box mt='20' alignContent={"center"}>
             <Stack>
             <Heading>Welcome to Cartesi Wallet dApp! 💰</Heading>
             <Text color={'grey'}>
@@ -74,6 +74,6 @@ export const Network: FC = () => {
                     </Box>
                 </Box>
             )}
-        </div>
+        </Box>
     );
 };

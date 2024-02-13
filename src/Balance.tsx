@@ -95,12 +95,12 @@ export const Balance: React.FC = () => {
     const [postData, setPostData] = useState<boolean>(false);
 
     return (
-        <Box alignItems='center' alignContent={"center"} borderWidth='1px' borderRadius='lg' overflow='hidden'>
+        <Box borderWidth='1px' borderRadius='lg' overflow='hidden'>
         <TableContainer>
             <Stack>
             <Table variant='striped' size="lg">
                 <Thead>
-                    <Tr textAlign={'center'}>
+                    <Tr>
                         <Th textAlign={'center'}>Ether</Th>
                         <Th textAlign={'center'}>ERC-20</Th>
                         <Th textAlign={'center'}>ERC-721</Th>
@@ -115,17 +115,16 @@ export const Balance: React.FC = () => {
                 
                     {<Tr key={`${decodedReports}`}>
                         {decodedReports && decodedReports.ether && (
-                        <Td>{ethers.utils.formatEther(decodedReports.ether)}</Td> )}
-                        {decodedReports && decodedReports.erc20 && (
-                        <Td>
-                            <div>📍:{String(decodedReports.erc20).split(",")[0]}</div>
-                            <div>
-                                🤑:{Number(String(decodedReports.erc20).split(",")[1]) / 10**18}</div>
+                        <Td textAlign={'center'}>{ethers.utils.formatEther(decodedReports.ether)}</Td> )}
+                        { decodedReports && decodedReports.erc20 && (
+                        <Td textAlign={'center'}>
+                            <div>📍 {String(decodedReports.erc20).split(",")[0]}</div>
+                            <div>🤑 {Number(String(decodedReports.erc20).split(",")[1]) / 10**18 !== null && Number(String(decodedReports.erc20).split(",")[1]) / 10**18} </div>
                         </Td> )}
                         {decodedReports && decodedReports.erc721 && (
-                        <Td>
-                            <div>📍:{String(decodedReports.erc721).split(",")[0]}</div>
-                            <div>🆔:{String(decodedReports.erc721).split(",")[1]}</div>
+                        <Td textAlign={'center'}>
+                            <div>📍 {String(decodedReports.erc721).split(",")[0]}</div>
+                            <div>🆔 {String(decodedReports.erc721).split(",")[1]}</div>
                         </Td> )}
                     </Tr>}
                 </Tbody>
