@@ -24,7 +24,8 @@ import {
     Td,
     TableCaption,
     TableContainer,
-    Button
+    Button,
+    Text
   } from '@chakra-ui/react'
 
 type Voucher = {
@@ -191,43 +192,41 @@ export const Vouchers: React.FC<IVoucherPropos> = (propos) => {
     // const forceUpdate = useForceUpdate();
     return (
         <div>
-            <p>Voucher to execute</p>
+            <p></p>
+        <Button marginTop={'15px'} float={'right'} size='sm' onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
+            Reload 🔃
+        </Button>
         {voucherToExecute ? 
         <Table>
             <Thead>
                 <Tr>
-                    {/* <Th>Input Index</Th>
-                    <Th>Voucher Index</Th>
-                    <Th>Destination</Th> */}
+                     <Th>Input Index</Th>
                     <Th>Action</Th> 
-                    {/* <th>Payload</th> */}
+                    <Th>Voucher Index</Th>
+                    {/*<Th>Destination</Th> */}
+                    {/* <Th>Payload</Th> */}
                     {/* <th>Proof</th> */}
                     {/* <Th>Input Payload</Th> */} 
-                    <Th>Msg</Th>
+                    {/* <Th>Msg</Th> */}
                 </Tr>
             </Thead>
             <Tbody>
                 <Tr key={`${voucherToExecute.input.index}-${voucherToExecute.index}`}>
-                    {/* <Td>{voucherToExecute.input.index}</Td>
-                    <Td>{voucherToExecute.index}</Td>
-                    <Td>{voucherToExecute.destination}</Td> */}
+                     <Td>{voucherToExecute.input.index}</Td>
+                    {/*<Td>{voucherToExecute.destination}</Td> */}
                     <Td>
-                        <Button _disabled={{
-                                bg: '#ffffff',
-                                borderColor: '#bec3c9',
-                            }} size='sm' disabled={!voucherToExecute.proof || voucherToExecute.executed} onClick={() => executeVoucher(voucherToExecute)}>{voucherToExecute.proof ? (voucherToExecute.executed ? "Voucher executed" : "Execute voucher") : "No proof yet"}</Button>
+                        <Button size='sm' isDisabled={!voucherToExecute.proof || voucherToExecute.executed} onClick={() => executeVoucher(voucherToExecute)}>{voucherToExecute.proof ? (voucherToExecute.executed ? "Voucher executed" : "Execute voucher") : "No proof yet"}</Button>
                     </Td>
+                    <Td>{voucherToExecute.index}</Td> 
                     {/* <td>{voucherToExecute.payload}</td> */}
                     {/* <td>{voucherToExecute.proof}</td> */}
-                    <Td>{voucherToExecute.input.payload}</Td>
-                    <Td>{voucherToExecute.msg}</Td>
+                    {/* <Td>{voucherToExecute.input.payload}</Td> */} 
+                    {/* <Td>{voucherToExecute.msg}</Td> */}
+                    <br /> <br />
                 </Tr>
             </Tbody>
-        </Table> : <p>No vouchers to execute! :( </p>}
-            <Button size='sm' onClick={() => reexecuteQuery({ requestPolicy: 'network-only' })}>
-                Reload 🔃
-            </Button>
-            <Table>
+        </Table> : <Text></Text>}
+            <Table marginTop={'20px'}>
                 <Thead>
                     <Tr>
                         {/*<Th>Input Index</Th>
@@ -242,7 +241,7 @@ export const Vouchers: React.FC<IVoucherPropos> = (propos) => {
                 <Tbody>
                     {vouchers.length === 0 && (
                         <Tr>
-                            <td colSpan={4}>no vouchers</td>
+                            <Td textAlign={'center'} colSpan={4}>-</Td>
                         </Tr>
                     )}
                     {vouchers.map((n: any) => (
@@ -251,10 +250,10 @@ export const Vouchers: React.FC<IVoucherPropos> = (propos) => {
                             <Td>{n.index}</Td>
                             <Td>{n.destination}</Td> */}
                             <Td>
-                                <Button size='sm' onClick={() => getProof(n)}>Get Proof</Button>
+                                <Button size='sm' onClick={() => getProof(n)}>Info</Button>
                             </Td>
                             {/* <td>{n.input.payload}</td> */}
-                            <Td>{n.payload}</Td>
+                            <Td color={'grey'}>{n.payload}</Td>
                             {/* <td>
                                 <button disabled={!!n.proof} onClick={() => executeVoucher(n)}>Execute voucher</button>
                             </td> */}

@@ -95,7 +95,7 @@ export const Reports: React.FC = () => {
                 <Tbody>
                     {reports.length === 0 && (
                         <Tr>
-                            <Td colSpan={4}>no reports</Td>
+                            <Td colSpan={4}>-</Td>
                         </Tr>
                     )}
                     {reports.map((n: any) => (
@@ -103,7 +103,7 @@ export const Reports: React.FC = () => {
                             {/* <Td>{n.input.index}</Td>
                             <Td>{n.index}</Td> */}
                             {/* <td>{n.input.payload}</td> */}
-                            <Td>{n.payload}</Td>
+                            <Td color={'grey'}>{n.payload}</Td>
                         </Tr>
                     ))}
                 </Tbody>

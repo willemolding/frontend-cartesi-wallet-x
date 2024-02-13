@@ -68,7 +68,7 @@ export const Network: FC = () => {
                     )}
                     <Spacer />
                     <Box alignContent='right'>
-                    <Button size='xs' onClick={() => disconnect(wallet)}>
+                    <Button marginRight={'20px'} size='xs' onClick={() => disconnect(wallet)}>
                     ✂️ Disconnect Wallet
                     </Button>
                     </Box>
