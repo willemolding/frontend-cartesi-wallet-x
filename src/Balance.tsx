@@ -119,7 +119,7 @@ export const Balance: React.FC = () => {
                         { decodedReports && decodedReports.erc20 && (
                         <Td textAlign={'center'}>
                             <div>📍 {String(decodedReports.erc20).split(",")[0]}</div>
-                            <div>🤑 {Number(String(decodedReports.erc20).split(",")[1]) / 10**18 !== null && Number(String(decodedReports.erc20).split(",")[1]) / 10**18} </div>
+                            <div>🤑 {Number(String(decodedReports.erc20).split(",")[1]) > 0 ? Number(String(decodedReports.erc20).split(",")[1]) / 10**18 : null} </div>
                         </Td> )}
                         {decodedReports && decodedReports.erc721 && (
                         <Td textAlign={'center'}>
