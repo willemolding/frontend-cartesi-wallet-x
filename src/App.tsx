@@ -26,6 +26,7 @@ import configFile from "./config.json";
 //import "./App.css";
 import { Balance } from "./Balance";
 import {Heading, Flex, Input, Box, InputGroup, InputLeftAddon, Stack, SimpleGrid} from "@chakra-ui/react"
+import banner from "./banner.png";
 
 
 const config: any = configFile;
@@ -70,8 +71,10 @@ const App: FC = () => {
                 <br /><br />
                 </Box>
             </Stack>
+            <img src={banner} alt="Banner" />
+
                 <br />
-                    <Balance />
+                    {/* <Balance /> */}
                     <br /> <br />
                     <Transfers dappAddress={dappAddress} />
                     <br /> <br />
