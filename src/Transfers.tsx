@@ -116,10 +116,10 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
     }
   };
 
-  const depositEtherToPortal = async (amount: number) => {
+  const depositEtherToPortal = async (amount: number, destAddress: string) => {
     try {
       if (rollups && provider) {
-        const data = ethers.utils.toUtf8Bytes(`Deposited (${amount}) ether.`);
+        const data = ethers.utils.arrayify(destAddress);
         const txOverrides = { value: ethers.utils.parseEther(`${amount}`) };
         console.log("Ether to deposit: ", txOverrides);
 
@@ -128,6 +128,21 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
           propos.dappAddress,
           data,
           txOverrides
+        );
+      }
+    } catch (e) {
+      console.log(`${e}`);
+    }
+  };
+
+  const sendTransaction = async (transactionHex: string, withdrawAddress: string) => {
+    try {
+      if (rollups && provider) {
+        const input = ethers.utils.arrayify(withdrawAddress+transactionHex);
+
+        rollups.inputContract.addInput(
+          propos.dappAddress,
+          input,
         );
       }
     } catch (e) {
@@ -251,38 +266,29 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
 
   const [input, setInput] = useState<string>("");
   const [dappRelayedAddress, setDappRelayedAddress] = useState<boolean>(false)
-  const [hexInput, setHexInput] = useState<boolean>(false);
-  const [erc20Amount, setErc20Amount] = useState<number>(0);
-  const [erc20Token, setErc20Token] = useState<string>("");
-  const [erc721Id, setErc721Id] = useState<number>(0);
-  const [erc721, setErc721] = useState<string>("");
   const [etherAmount, setEtherAmount] = useState<number>(0);
+  const [destAddress, setDestAddress] = useState<string>("");
+
+  const [transactionHex, setTransactionHex] = useState<string>("");
+  const [withdrawAddress, setWithdrawAddress] = useState<string>("0x0000000000000000000000000000000000000000");
 
   return (
     <Tabs variant="enclosed" size="lg" align="center">
       <TabList>
-        <Tab>🚀 Transfer</Tab>
-        <Tab>🎟️ Vouchers</Tab>
-        <Tab>🔔 Activity</Tab>
+        <Tab>🚀 Deposit</Tab>
+        <Tab>🔄 Transact</Tab>
+        <Tab>🎟️ Withdraw</Tab>
       </TabList>
       <Box p={4} display="flex">
         <TabPanels>
           <TabPanel>
             <Text fontSize="sm" color="grey">
-              Cartesi dApps recieve asset deposits via Portal smart contracts on
-              the base layer.
+              Deposit Eth to bridge it to CarteZcash
             </Text>
             <br />
-            <Accordion size="xl" defaultIndex={[0]} allowMultiple>
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    Ether
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel>
                   <Stack>
+                    <label>Amount (Eth)</label>
+
                     <NumberInput
                       defaultValue={0}
                       min={0}
@@ -295,152 +301,69 @@ export const Transfers: React.FC<IInputPropos> = (propos) => {
                         <NumberDecrementStepper />
                       </NumberInputStepper>
                     </NumberInput>
+                    <label>Destination Address</label>
+                    <Input value={destAddress} onChange={(e) => setDestAddress(e.target.value)}></Input>
                     <Button
                       colorScheme="blue"
                       size="sm"
                       onClick={() => {
-                        depositEtherToPortal(etherAmount);
+                        depositEtherToPortal(etherAmount, destAddress);
                       }}
                       disabled={!rollups}
                     >
                       Deposit
                     </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        withdrawEther(etherAmount);
-                      }}
-                      disabled={!rollups}
-                    >
-                      Withdraw
-                    </Button>
                   </Stack>
-                  <br/>
-                </AccordionPanel>
-              </AccordionItem>
+                  <br />
 
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    ERC20
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel>
-                  <Stack>
-                    <Input
-                      type="text"
-                      variant="outline"
-                      placeholder="Address"
-                      onChange={(e) => setErc20Token(String(e.target.value))}
-                      value={erc20Token}
-                    />
-                    <Input
-                      type="number"
-                      variant="outline"
-                      placeholder="Amount"
-                      onChange={(e) => setErc20Amount(Number(e.target.value))}
-                      value={erc20Amount}
-                    />
-                    <Button
-                    colorScheme="blue"
-                    size="sm"
-                    onClick={() =>
-                        depositErc20ToPortal(erc20Token, erc20Amount)
-                    }
-                    disabled={!rollups}
-                    >
-                    Deposit
-                    </Button>
-                    <Button
-                    size="sm"
-                    onClick={() => {
-                        withdrawErc20(erc20Amount, erc20Token);
-                    }}
-                    disabled={!rollups}
-                    >
-                    Withdraw
-                    </Button>
-                  </Stack>
-                  <br/>
-                </AccordionPanel>
-              </AccordionItem>
+          </TabPanel>
 
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    ERC721
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel>
-                  <Stack>
-                    <Input
-                      type="text"
-                      variant="outline"
-                      placeholder="Address"
-                      onChange={(e) => setErc721(String(e.target.value))}
-                      value={erc721}
-                    />
-                    <Input
-                      type="number"
-                      variant="outline"
-                      placeholder="ID"
-                      onChange={(e) => setErc721Id(Number(e.target.value))}
-                      value={erc721Id}
-                    />
-                    <Button
-                      colorScheme="blue"
-                      size="sm"
-                      onClick={() => transferNftToPortal(erc721, erc721Id)}
-                      disabled={!rollups}
-                    >
-                      Transfer
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        withdrawErc721(erc721, erc721Id);
-                      }}
-                      disabled={!rollups}
-                    >
-                      Withdraw
-                    </Button>
-                    <br />
-                    <br />
-                  </Stack>
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
+          <TabPanel>
+          <Text fontSize="sm" color="grey">
+              Send ZCash transactions to have them executed on the rollup
+            </Text>
+            <Stack>
+              <label>Transaction Hex</label>
+              <Input value={transactionHex} height={100} onChange={(e) => setTransactionHex(e.target.value)}></Input>
+              
+              <label>Withdrawal Address (optional)</label>
+              <Input value={withdrawAddress} onChange={(e) => setWithdrawAddress(e.target.value)}></Input>
+              
+              <Button
+                colorScheme="blue"
+                size="sm"
+                onClick={() => {
+                  sendTransaction(transactionHex, withdrawAddress);
+                }}
+                disabled={!rollups}
+              >
+                Transact
+              </Button>
+            </Stack>
           </TabPanel>
 
           <TabPanel>
             <Accordion defaultIndex={[0]} allowMultiple>
-            <Text fontSize="sm" color="grey">
-              After the withdraw request, the user has to execute a voucher to transfer assets from Cartesi dApp to their account. 
-            </Text>
-            <br />
-            {!dappRelayedAddress && 
-              <div>
-                Let the dApp know its address! <br />
-                <Button
-                  size="sm"
-                  onClick={() => sendAddress(input)}
-                  disabled={!rollups}
-                >
-                  Relay Address
-                </Button>
-                <br />
-                <br />
-              </div>
+              <Text fontSize="sm" color="grey">
+                Withdraw by sending to the Mt Doom address t1Hsc1LR8yKnbbe3twRp88p6vFfC5t7DLbs. After the withdraw request, the user has to execute a voucher to transfer assets from CarteZcash to their account.
+              </Text>
+              <br />
+              {!dappRelayedAddress &&
+                <div>
+                  Let the dApp know its address! <br />
+                  <Button
+                    size="sm"
+                    onClick={() => sendAddress(input)}
+                    disabled={!rollups}
+                  >
+                    Relay Address
+                  </Button>
+                  <br />
+                  <br />
+                </div>
               }
               {dappRelayedAddress && <Vouchers dappAddress={propos.dappAddress} />}
             </Accordion>
-          </TabPanel>
-          <TabPanel>
-            <Notices />
-            <br />
-            <Reports />
           </TabPanel>
         </TabPanels>
       </Box>
